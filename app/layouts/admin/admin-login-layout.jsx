@@ -10,7 +10,7 @@ const AdminLoginLayout = ({ children }) => {
   return (
     <Container
       fluid
-      className="min-vh-100 admin-gradient-bg bg-gradient-reward-hero"
+      className="min-vh-100 admin-gradient-bg"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -51,12 +51,12 @@ const AdminLoginLayout = ({ children }) => {
 
       <div className="text-center">
         <Badge
-          bg="dark"
+          bg="primary"
           className="p-3 text-uppercase"
         >
           { 'Scorpio Carwash Admin' }
         </Badge>
-        <small className="text-white-50 mb-3 d-block">
+        <small className="text-body-secondary mb-3 d-block">
           { 'ver. ' }
           { commitSha }
         </small>

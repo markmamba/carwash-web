@@ -1,15 +1,16 @@
 .admin-gradient-bg {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(to right, #0f1b35 0%, #0f1b35 50%, #000000 100%);
+  background: linear-gradient(to right, #e3ecf7 0%, #eef3f8 50%, #f8f9fb 100%);
+  color: var(--bs-body-color);
 
-  --blob-blue: 21, 101, 192;
-  --blob-coral: 255, 107, 107;
-  --blob-amber: 255, 179, 71;
-  --blob-rose: 200, 80, 140;
-  --blob-teal: 60, 180, 180;
+  --blob-blue: 100, 160, 230;
+  --blob-coral: 255, 170, 150;
+  --blob-amber: 255, 210, 140;
+  --blob-rose: 220, 160, 190;
+  --blob-teal: 130, 210, 205;
   --blob-size: 50%;
-  --blob-blend: hard-light;
+  --blob-blend: multiply;
 
   @media (max-width: 767.98px) {
     background: #f8f9fa;
@@ -43,7 +44,7 @@
   }
 
   .admin-blob-1 {
-    background: radial-gradient(circle at center, rgba(var(--blob-blue), 0.85) 0, rgba(var(--blob-blue), 0) 50%);
+    background: radial-gradient(circle at center, rgba(var(--blob-blue), 0.55) 0, rgba(var(--blob-blue), 0) 50%);
     width: 70%;
     height: 70%;
     top: calc(50% - 35%);
@@ -53,13 +54,13 @@
   }
 
   .admin-blob-2 {
-    background: radial-gradient(circle at center, rgba(var(--blob-coral), 0.8) 0, rgba(var(--blob-coral), 0) 50%);
+    background: radial-gradient(circle at center, rgba(var(--blob-coral), 0.5) 0, rgba(var(--blob-coral), 0) 50%);
     transform-origin: calc(50% - 300px);
     animation: adminBlobCircle 14s reverse infinite;
   }
 
   .admin-blob-3 {
-    background: radial-gradient(circle at center, rgba(var(--blob-amber), 0.8) 0, rgba(var(--blob-amber), 0) 50%);
+    background: radial-gradient(circle at center, rgba(var(--blob-amber), 0.5) 0, rgba(var(--blob-amber), 0) 50%);
     top: calc(50% - var(--blob-size) / 2 + 150px);
     left: calc(50% - var(--blob-size) / 2 - 350px);
     transform-origin: calc(50% + 300px);
@@ -67,21 +68,21 @@
   }
 
   .admin-blob-4 {
-    background: radial-gradient(circle at center, rgba(var(--blob-rose), 0.75) 0, rgba(var(--blob-rose), 0) 50%);
+    background: radial-gradient(circle at center, rgba(var(--blob-rose), 0.45) 0, rgba(var(--blob-rose), 0) 50%);
     transform-origin: calc(50% - 150px);
     animation: adminBlobHorizontal 22s ease infinite;
-    opacity: 0.8;
+    opacity: 0.7;
   }
 
   .admin-blob-5 {
-    background: radial-gradient(circle at center, rgba(var(--blob-teal), 0.75) 0, rgba(var(--blob-teal), 0) 50%);
+    background: radial-gradient(circle at center, rgba(var(--blob-teal), 0.45) 0, rgba(var(--blob-teal), 0) 50%);
     width: calc(var(--blob-size) * 1.6);
     height: calc(var(--blob-size) * 1.6);
     top: calc(50% - var(--blob-size) * 0.8);
     left: calc(50% - var(--blob-size) * 0.8);
     transform-origin: calc(50% - 500px) calc(50% + 150px);
     animation: adminBlobCircle 16s ease infinite;
-    opacity: 0.9;
+    opacity: 0.65;
   }
 }
 
