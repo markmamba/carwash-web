@@ -12,6 +12,7 @@
     "@react-router/serve": "8.0.0",
     "bootstrap": "^5.3.7",
     "isbot": "^5.1.36",
+    "ky": "^1.8.2",
     "lucide-react": "^0.528.0",
     "react": "^19.2.7",
     "react-bootstrap": "^2.10.10",
