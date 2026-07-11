@@ -1,0 +1,28 @@
+// ==========================================================================
+// Custom Variables & Overrides — Scorpio Carwash
+// ==========================================================================
+
+// Brand colours
+$scorpio-blue:  #1565c0; // Primary — water / trust
+$scorpio-navy:  #1e2d3d; // Secondary — admin sidebar chrome
+$scorpio-slate: #2c3e50; // Dark accent
+
+//
+// Color system overrides
+//
+$primary:   $scorpio-blue;
+$secondary: $scorpio-navy;
+
+//
+// Typography overrides
+//
+$headings-font-family: 'Plus Jakarta Sans', sans-serif;
+
+//
+// Options overrides
+//
+$enable-shadows:          true;
+$enable-reduced-motion:     false;
+$enable-negative-margins: true;
+$enable-rfs:                true;
+$enable-cssgrid:            true;
