@@ -7,6 +7,7 @@ React Router v7 (framework mode) admin portal for Scorpio Carwash. JavaScript on
 - React 19, JavaScript (`.js`/`.jsx`)
 - React Router v7 framework mode (SSR)
 - Vite 8
+- Bootstrap 5 SCSS (react-bootstrap added in later phases)
 
 See `.ai/instructions.md` for full coding conventions.
 

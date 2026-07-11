@@ -5,13 +5,19 @@ export const meta = () => ([
 
 export default function HomePage() {
   return (
-    <main style={ { padding: '2rem' } }>
-      <h1>
+    <main className="container py-5">
+      <h1 className="mb-3">
         { 'Scorpio Carwash' }
       </h1>
-      <p>
+      <p className="text-body-secondary mb-4">
         { 'Admin portal scaffold ready.' }
       </p>
+      <button
+        type="button"
+        className="btn btn-primary"
+      >
+        { 'Bootstrap SCSS loaded' }
+      </button>
     </main>
   )
 }
