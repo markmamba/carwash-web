@@ -12,10 +12,17 @@
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/variables-dark";
 
-// 4. Bootstrap maps, mixins, utilities
+// 3b. Secondary colour palette (tints & shades)
+@import "~styles/color-palette";
+
+// 4. Map overrides, then Bootstrap maps/mixins/utilities
+@import "~styles/maps";
 @import "~bootstrap/scss/maps";
 @import "~bootstrap/scss/mixins";
 @import "~bootstrap/scss/utilities";
+
+// 4b. Custom utility extensions
+@import "~styles/utilities";
 
 // 5. Bootstrap components
 @import "~bootstrap/scss/root";
@@ -53,3 +60,6 @@
 // 6. Bootstrap helpers & utilities API
 @import "~bootstrap/scss/helpers";
 @import "~bootstrap/scss/utilities/api";
+
+// 7. Custom components
+@import "~styles/components";

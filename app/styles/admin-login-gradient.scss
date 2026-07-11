@@ -1,0 +1,109 @@
+.admin-gradient-bg {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(to right, #0f1b35 0%, #0f1b35 50%, #000000 100%);
+
+  --blob-blue: 21, 101, 192;
+  --blob-coral: 255, 107, 107;
+  --blob-amber: 255, 179, 71;
+  --blob-rose: 200, 80, 140;
+  --blob-teal: 60, 180, 180;
+  --blob-size: 50%;
+  --blob-blend: hard-light;
+
+  @media (max-width: 767.98px) {
+    background: #f8f9fa;
+  }
+
+  .admin-gradient-svg {
+    position: absolute;
+    width: 0;
+    height: 0;
+  }
+
+  .admin-gradient-blobs {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 52%;
+    height: 100%;
+    filter: url(#adminGoo) blur(28px);
+  }
+
+  .admin-blob {
+    position: absolute;
+    border-radius: 50%;
+    mix-blend-mode: var(--blob-blend);
+    width: var(--blob-size);
+    height: var(--blob-size);
+    top: calc(50% - var(--blob-size) / 2);
+    left: calc(50% - var(--blob-size) / 2);
+    will-change: transform;
+    opacity: 1;
+  }
+
+  .admin-blob-1 {
+    background: radial-gradient(circle at center, rgba(var(--blob-blue), 0.85) 0, rgba(var(--blob-blue), 0) 50%);
+    width: 70%;
+    height: 70%;
+    top: calc(50% - 35%);
+    left: calc(50% - 35%);
+    transform-origin: center center;
+    animation: adminBlobVertical 18s ease infinite;
+  }
+
+  .admin-blob-2 {
+    background: radial-gradient(circle at center, rgba(var(--blob-coral), 0.8) 0, rgba(var(--blob-coral), 0) 50%);
+    transform-origin: calc(50% - 300px);
+    animation: adminBlobCircle 14s reverse infinite;
+  }
+
+  .admin-blob-3 {
+    background: radial-gradient(circle at center, rgba(var(--blob-amber), 0.8) 0, rgba(var(--blob-amber), 0) 50%);
+    top: calc(50% - var(--blob-size) / 2 + 150px);
+    left: calc(50% - var(--blob-size) / 2 - 350px);
+    transform-origin: calc(50% + 300px);
+    animation: adminBlobCircle 24s linear infinite;
+  }
+
+  .admin-blob-4 {
+    background: radial-gradient(circle at center, rgba(var(--blob-rose), 0.75) 0, rgba(var(--blob-rose), 0) 50%);
+    transform-origin: calc(50% - 150px);
+    animation: adminBlobHorizontal 22s ease infinite;
+    opacity: 0.8;
+  }
+
+  .admin-blob-5 {
+    background: radial-gradient(circle at center, rgba(var(--blob-teal), 0.75) 0, rgba(var(--blob-teal), 0) 50%);
+    width: calc(var(--blob-size) * 1.6);
+    height: calc(var(--blob-size) * 1.6);
+    top: calc(50% - var(--blob-size) * 0.8);
+    left: calc(50% - var(--blob-size) * 0.8);
+    transform-origin: calc(50% - 500px) calc(50% + 150px);
+    animation: adminBlobCircle 16s ease infinite;
+    opacity: 0.9;
+  }
+}
+
+.admin-login-content {
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes adminBlobVertical {
+  0%   { transform: translateY(-40%); }
+  50%  { transform: translateY(40%); }
+  100% { transform: translateY(-40%); }
+}
+
+@keyframes adminBlobHorizontal {
+  0%   { transform: translateX(-40%) translateY(-8%); }
+  50%  { transform: translateX(40%) translateY(8%); }
+  100% { transform: translateX(-40%) translateY(-8%); }
+}
+
+@keyframes adminBlobCircle {
+  0%   { transform: rotate(0deg); }
+  50%  { transform: rotate(180deg); }
+  100% { transform: rotate(360deg); }
+}

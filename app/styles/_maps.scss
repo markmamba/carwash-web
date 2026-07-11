@@ -1,0 +1,12 @@
+$spacers: map-merge(
+  $spacers,
+  (
+    6: $spacer * 6,
+    7: $spacer * 7,
+    8: $spacer * 8,
+    9: $spacer * 9,
+    10: $spacer * 10,
+  )
+);
+
+$gradient: linear-gradient(180deg, rgba($white, .25), rgba($black, 0.1));

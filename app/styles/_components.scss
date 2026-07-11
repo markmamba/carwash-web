@@ -1,0 +1,89 @@
+// --------------------------------------------------------------------------
+// Login / hero gradients
+// --------------------------------------------------------------------------
+
+.bg-gradient-reward-hero {
+  background:
+    radial-gradient(ellipse 120% 80% at 50% 120%, rgba($primary, 0.40) 0%, transparent 80%),
+    linear-gradient(180deg, $secondary-600 0%, $fast-black 100%) !important;
+  color: #fff !important;
+}
+
+// --------------------------------------------------------------------------
+// Admin page header — dark chrome with seigaiha wave texture
+// --------------------------------------------------------------------------
+
+.bg-gradient-chrome {
+  background-color: $secondary-700;
+  overflow: hidden;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('/patterns/seigaiha.svg');
+    background-repeat: repeat;
+    background-size: 25px 20px;
+    pointer-events: none;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      30deg,
+      #{$secondary-700} 0%,
+      #{rgba($secondary-700, 1)} 40%,
+      #{rgba($secondary-700, 0.8)} 80%,
+      #{rgba($secondary-700, 0.9)} 100%
+    );
+    pointer-events: none;
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .nav-tabs {
+    gap: 0.25rem;
+    --bs-nav-link-color: #{rgba(#fff, 0.65)};
+    --bs-nav-link-hover-color: #fff;
+    --bs-nav-link-disabled-color: #{rgba(#fff, 0.35)};
+    --bs-nav-tabs-border-color: transparent;
+    --bs-nav-tabs-link-hover-border-color: #{rgba(#fff, 0.20)} #{rgba(#fff, 0.20)} transparent;
+    --bs-nav-tabs-link-active-bg: #{$body-secondary-bg};
+    --bs-nav-tabs-link-active-color: #{$fast-black};
+    --bs-nav-tabs-link-active-border-color: #{$body-secondary-bg};
+
+    .nav-link:not(.active):not(:disabled) {
+      border-color: #{rgba(#fff, 0.10)};
+    }
+  }
+}
+
+// --------------------------------------------------------------------------
+// Resource page shell
+// --------------------------------------------------------------------------
+
+.resource-shell-title-card {
+  background-color: rgba($white, 0.12);
+  border: 1px solid rgba($white, 0.20);
+  backdrop-filter: blur(1.6px);
+  -webkit-backdrop-filter: blur(1.6px);
+}
+
+.resource-shell-guidance {
+  background-color: var(--bs-tertiary-bg);
+  border-left: 3px solid $primary;
+}
+
+// --------------------------------------------------------------------------
+// Admin sidebar
+// --------------------------------------------------------------------------
+
+.admin-sidebar {
+  color: var(--bs-body-color);
+}

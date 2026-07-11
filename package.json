@@ -12,7 +12,9 @@
     "@react-router/serve": "8.0.0",
     "bootstrap": "^5.3.7",
     "isbot": "^5.1.36",
+    "lucide-react": "^0.528.0",
     "react": "^19.2.7",
+    "react-bootstrap": "^2.10.10",
     "react-dom": "^19.2.7",
     "react-router": "8.0.0"
   },

@@ -6,6 +6,7 @@ import {
   Scripts,
   ScrollRestoration
 } from 'react-router'
+import { AdminAuthProvider } from '@/hooks/use-admin-auth'
 import './styles/main.scss'
 
 export const links = () => ([
@@ -43,7 +44,11 @@ export function Layout({ children }) {
 }
 
 export default function App() {
-  return <Outlet />
+  return (
+    <AdminAuthProvider>
+      <Outlet />
+    </AdminAuthProvider>
+  )
 }
 
 export function ErrorBoundary({ error }) {

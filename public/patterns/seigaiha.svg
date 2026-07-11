@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="80" viewBox="0 0 100 80">
+  <defs>
+    <g id="fan">
+      <circle cx="0" cy="0" r="56" fill="#e2e8f0" stroke="#f07615" stroke-width="12" />
+      <circle cx="0" cy="0" r="38" fill="none" stroke="#f07615" stroke-width="12" />
+      <circle cx="0" cy="0" r="20" fill="none" stroke="#f07615" stroke-width="12" />
+    </g>
+  </defs>
+
+  <use href="#fan" x="0" y="-20" />
+  <use href="#fan" x="100" y="-20" />
+
+  <use href="#fan" x="50" y="20" />
+
+  <use href="#fan" x="0" y="60" />
+  <use href="#fan" x="100" y="60" />
+
+  <use href="#fan" x="50" y="100" />
+</svg>
