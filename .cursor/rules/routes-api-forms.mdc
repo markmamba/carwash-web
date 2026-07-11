@@ -1,0 +1,32 @@
+---
+description: Path-scoped conventions for routes, APIs, and forms
+globs:
+  - app/routes/**/*.jsx
+  - app/api/**/*.js
+  - app/domains/**/*.jsx
+  - app/domains/**/*.js
+alwaysApply: false
+---
+
+# Routes, APIs, Forms Rules
+
+## Routes
+
+- Export `meta` in every page route module.
+- Use `withNoAuth` on login page export only; layout handles auth for all other admin pages.
+- Use `clientLoader` for data loading on admin pages.
+- Export `handle.pageShell` overrides on finance CRUD pages.
+
+## API Objects
+
+- Use `adminApiClient` for all endpoints.
+- Define uppercase path constants (e.g., `ADMIN_FINANCE_DAILY_SALES_PATH`).
+- Whitelist payload/query fields explicitly.
+- Clean filter params with `removeObjectEmptyAttributes`.
+
+## Forms
+
+- Keep domain forms in `app/domains/<domain-model>/*-form.jsx`.
+- Keep Zod schemas in matching `*-schema.js` files.
+- Use `FormProvider` for nested shared field components.
+- Use `getApiErrorToastConfig` and `setApiErrorsToFormFields` in route-level submit handlers.

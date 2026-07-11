@@ -1,0 +1,8 @@
+---
+name: admin-domain-page
+description: Scaffolds a complete admin portal domain page with list, create, detail, search, and pagination. Use when asked to create a new admin page, add a finance resource to the admin portal, or scaffold admin CRUD pages for a resource.
+---
+
+Read and follow the instructions in `.ai/skills/admin-domain-page/SKILL.md`.
+
+User input: $ARGUMENTS

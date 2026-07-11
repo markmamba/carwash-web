@@ -1,0 +1,30 @@
+---
+description: Core repository conventions for Scorpio Carwash admin portal
+globs: []
+alwaysApply: true
+---
+
+# Scorpio Carwash Web — Core Rules
+
+Read and follow all instructions in `.ai/instructions.md`. That file is the single source of truth for architecture, conventions, and coding patterns.
+
+## Quick Reference
+
+- JavaScript (`.js`, `.jsx`) only — no TypeScript
+- React Router v7 framework mode, SSR via `react-router.config.js`
+- Single admin segment at `/admin` (maps to Jod Team portal pattern)
+- react-bootstrap + Bootstrap 5 SCSS for UI
+- react-hook-form + zod for forms
+- `adminApiClient` in `app/api/ky-client.js` for all API calls
+- URL-driven list/filter state (`useSearchParams`)
+- All admin pages: `robots: noindex, nofollow`
+
+## Anti-Patterns (NEVER Do These)
+
+1. NEVER call APIs from passive view components
+2. NEVER use TypeScript
+3. NEVER use Tailwind — use Bootstrap SCSS
+4. NEVER put domain forms in `app/components/`
+5. NEVER import `AdminPageShell` in page components
+6. NEVER skip `meta` export on route pages
+7. NEVER use `process.env.VITE_*` — use `import.meta.env`

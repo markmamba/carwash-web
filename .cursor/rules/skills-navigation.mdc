@@ -1,0 +1,20 @@
+---
+description: Skill playbook navigation for complex code generation tasks
+globs:
+  - .ai/skills/**/*.md
+  - app/**/*.js
+  - app/**/*.jsx
+alwaysApply: false
+---
+
+# Skills Navigation
+
+When a task matches a playbook, consult the corresponding folder in `.ai/skills/`:
+
+- Full CRUD resource scaffold: `.ai/skills/admin-domain-page/`
+- ky API objects: `.ai/skills/creating-api-clients/`
+- Route pages (dashboard, reports, login): `.ai/skills/creating-route-pages/`
+- Domain forms + zod/rhf: `.ai/skills/creating-domain-forms/`
+- Domain view components: `.ai/skills/creating-domain-views/`
+
+Cursor rule shortcuts: `/admin-domain-page`, `/creating-api-clients`, `/creating-route-pages`, `/creating-domain-forms`, `/creating-domain-views`
