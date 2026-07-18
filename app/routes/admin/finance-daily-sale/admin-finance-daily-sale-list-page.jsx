@@ -22,17 +22,33 @@ export const handle = {
   }
 }
 
+// API max page_size; day view loads all sales for one date on a single page.
+const DAY_VIEW_PAGE_SIZE = 100
+
 export async function clientLoader({ request }) {
   try {
     const url      = new URL(request.url)
     const params   = Object.fromEntries(url.searchParams)
     const saleDate = params.sale_date?.trim?.() || params.sale_date || ''
 
-    const data = await adminFinanceDailySalesApi.index(params)
+    const salesParams = saleDate
+      ? {
+        ...params,
+        sale_date : saleDate,
+        page      : 1,
+        page_size : DAY_VIEW_PAGE_SIZE
+      }
+      : params
 
-    let dailyClosing = null
+    const data = await adminFinanceDailySalesApi.index(salesParams)
+
+    let dailyClosing           = null
+    let dailyClosingLoadFailed = false
+    let dayViewHasMoreSales    = false
 
     if (saleDate) {
+      dayViewHasMoreSales = (data.meta?.last || 1) > 1
+
       try {
         const closingData = await adminFinanceDailyClosingsApi.index({
           closing_date : saleDate,
@@ -41,27 +57,27 @@ export async function clientLoader({ request }) {
 
         dailyClosing = closingData.daily_closings?.[0] || null
       } catch (closingError) {
-        handleLoaderError(closingError, {
-          dailySales   : data.daily_sales,
-          meta         : data.meta,
-          dailyClosing : null,
-          saleDate
-        })
+        handleLoaderError(closingError, {})
+        dailyClosingLoadFailed = true
       }
     }
 
     return {
-      dailySales   : data.daily_sales,
-      meta         : data.meta,
+      dailySales               : data.daily_sales,
+      meta                     : data.meta,
       dailyClosing,
+      dailyClosingLoadFailed,
+      dayViewHasMoreSales,
       saleDate
     }
   } catch (error) {
     return handleLoaderError(error, {
-      dailySales   : [],
-      meta         : { last: 1 },
-      dailyClosing : null,
-      saleDate     : ''
+      dailySales               : [],
+      meta                     : { last: 1 },
+      dailyClosing             : null,
+      dailyClosingLoadFailed   : false,
+      dayViewHasMoreSales      : false,
+      saleDate                 : ''
     })
   }
 }
@@ -69,7 +85,14 @@ export async function clientLoader({ request }) {
 const CLICKABLE_ROW_STYLE = { cursor: 'pointer' }
 
 const AdminFinanceDailySaleListPage = () => {
-  const { dailySales, meta, dailyClosing, saleDate } = useLoaderData()
+  const {
+    dailySales,
+    meta,
+    dailyClosing,
+    dailyClosingLoadFailed,
+    dayViewHasMoreSales,
+    saleDate
+  } = useLoaderData()
   const navigate                                     = useNavigate()
   const revalidator                                  = useRevalidator()
   const { showToast }                                = useToast()
@@ -222,13 +245,32 @@ const AdminFinanceDailySaleListPage = () => {
                 </tbody>
               </Table>
 
-              <JodPagination
-                totalPages={ meta?.last || 1 }
-                currentPage={ Number(searchParams.get('page')) || 1 }
-                onClick={ handlePageChange }
-              />
+              {
+                isDayView
+                  ? null
+                  : (
+                    <JodPagination
+                      totalPages={ meta?.last || 1 }
+                      currentPage={ Number(searchParams.get('page')) || 1 }
+                      onClick={ handlePageChange }
+                    />
+                  )
+              }
             </>
           )
+      }
+
+      {
+        isDayView && dayViewHasMoreSales
+          ? (
+            <Alert
+              variant="warning"
+              className="border mb-3"
+            >
+              { 'This day has more than 100 sales. Sub-total and net only include the first 100 entries.' }
+            </Alert>
+          )
+          : null
       }
 
       {
@@ -238,6 +280,7 @@ const AdminFinanceDailySaleListPage = () => {
               saleDate={ saleDate }
               dailySales={ dailySales }
               dailyClosing={ dailyClosing }
+              dailyClosingLoadFailed={ dailyClosingLoadFailed }
               onSubmit={ handleDailyClosingSubmit }
             />
           )
