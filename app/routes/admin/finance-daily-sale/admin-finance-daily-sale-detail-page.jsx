@@ -26,8 +26,8 @@ export const handle = {
 
 export async function clientLoader({ params }) {
   try {
-    const data = await adminFinanceDailySalesApi.show(params.dailySaleId)
-    return { dailySale: data.daily_sale }
+    const dailySale = await adminFinanceDailySalesApi.show(params.dailySaleId)
+    return { dailySale }
   } catch (error) {
     return handleLoaderError(error, { dailySale: null })
   }
