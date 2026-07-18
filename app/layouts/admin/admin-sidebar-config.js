@@ -31,7 +31,7 @@ export const ADMIN_SIDEBAR_CONFIG = {
           label       : 'Expenses',
           path        : '/admin/finance/expenses',
           activeMatch : /^\/admin\/finance\/expenses(\/|$)/,
-          isDisabled  : true
+          isDisabled  : false
         },
         {
           label       : 'Bank Deposits',
