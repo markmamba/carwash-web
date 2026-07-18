@@ -1,17 +1,14 @@
 import { Form } from 'react-bootstrap'
 import { useFormContext } from 'react-hook-form'
 
-const TextField = ({
+const DateField = ({
   name,
   label,
-  type = 'text',
-  autoComplete,
-  placeholder,
   required = false,
   className = 'mb-3'
 }) => {
-  const formHook   = useFormContext()
-  const fieldError = formHook.formState.errors[name]
+  const formHook    = useFormContext()
+  const fieldError  = formHook.formState.errors[name]
 
   return (
     <Form.Group
@@ -31,9 +28,7 @@ const TextField = ({
         }
       </Form.Label>
       <Form.Control
-        type={ type }
-        placeholder={ placeholder }
-        autoComplete={ autoComplete }
+        type="date"
         isInvalid={ !!fieldError }
         { ...formHook.register(name) }
       />
@@ -44,4 +39,4 @@ const TextField = ({
   )
 }
 
-export default TextField
+export default DateField

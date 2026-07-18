@@ -1,14 +1,13 @@
 import { Form } from 'react-bootstrap'
 import { useFormContext } from 'react-hook-form'
 
-const TextField = ({
+const TextareaField = ({
   name,
   label,
-  type = 'text',
-  autoComplete,
-  placeholder,
   required = false,
-  className = 'mb-3'
+  rows = 3,
+  className = 'mb-3',
+  placeholder
 }) => {
   const formHook   = useFormContext()
   const fieldError = formHook.formState.errors[name]
@@ -31,9 +30,9 @@ const TextField = ({
         }
       </Form.Label>
       <Form.Control
-        type={ type }
+        as="textarea"
+        rows={ rows }
         placeholder={ placeholder }
-        autoComplete={ autoComplete }
         isInvalid={ !!fieldError }
         { ...formHook.register(name) }
       />
@@ -44,4 +43,4 @@ const TextField = ({
   )
 }
 
-export default TextField
+export default TextareaField

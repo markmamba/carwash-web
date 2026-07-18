@@ -25,7 +25,7 @@ export const ADMIN_SIDEBAR_CONFIG = {
           label       : 'Daily Sales',
           path        : '/admin/finance/daily-sales',
           activeMatch : /^\/admin\/finance\/daily-sales(\/|$)/,
-          isDisabled  : true
+          isDisabled  : false
         },
         {
           label       : 'Expenses',
