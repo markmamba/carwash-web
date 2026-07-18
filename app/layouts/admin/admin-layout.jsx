@@ -7,12 +7,15 @@ import {
   redirect,
   useLoaderData,
   useLocation,
+  useNavigate,
   useRouteError
 } from 'react-router'
 import { adminSessionsApi } from '@/api/admin-sessions-api'
 import { ApiError } from '@/errors/api-error'
 import GeneralError from '@/components/error-display/general-error'
 import { useAdminAuth } from '@/hooks/use-admin-auth'
+import { useToast } from '@/hooks/use-toast'
+import { getApiErrorToastConfig } from '@/utils/error-utils'
 import {
   buildAdminLoginRedirectPath,
   isUnauthorizedApiError
@@ -45,10 +48,13 @@ export async function clientLoader({ request }) {
  * Session is validated in clientLoader before rendering protected routes.
  */
 const AdminLayout = () => {
-  const { identitiesAdmin }           = useLoaderData()
-  const { onAdminUpdate }             = useAdminAuth()
-  const [sidebarOpen, setSidebarOpen] = useState(false)
-  const commitSha                     = import.meta.env.VITE_COMMIT_SHA?.slice(0, 7) || 'dev'
+  const { identitiesAdmin }             = useLoaderData()
+  const { onAdminUpdate }               = useAdminAuth()
+  const { showToast }                   = useToast()
+  const navigate                        = useNavigate()
+  const [sidebarOpen, setSidebarOpen]   = useState(false)
+  const [isSigningOut, setIsSigningOut] = useState(false)
+  const commitSha                       = import.meta.env.VITE_COMMIT_SHA?.slice(0, 7) || 'dev'
 
   useEffect(() => {
     onAdminUpdate(identitiesAdmin)
@@ -56,6 +62,23 @@ const AdminLayout = () => {
 
   const handleSidebarClose = () => setSidebarOpen(false)
   const handleSidebarShow  = () => setSidebarOpen(true)
+
+  const handleSignOut = async () => {
+    setIsSigningOut(true)
+
+    try {
+      await adminSessionsApi.destroy()
+
+      onAdminUpdate(null)
+      navigate('/admin/login', { replace: true })
+    } catch (error) {
+      showToast(getApiErrorToastConfig(error, {
+        defaultMessage: 'Could not sign out. Please try again.'
+      }))
+    } finally {
+      setIsSigningOut(false)
+    }
+  }
 
   return (
     <Container
@@ -77,11 +100,12 @@ const AdminLayout = () => {
           className="p-0 flex-grow-1"
           style={{ minHeight: 0 }}
         >
-          <div
-            className="vh-100 overflow-y-auto overflow-x-hidden shadow bg-secondary-700"
-            style={{ scrollbarWidth: 'none' }}
-          >
-            <AdminSidebar onClose={ handleSidebarClose } />
+          <div className="vh-100 d-flex flex-column overflow-hidden shadow bg-secondary-700">
+            <AdminSidebar
+              onClose={ handleSidebarClose }
+              onSignOut={ handleSignOut }
+              isSigningOut={ isSigningOut }
+            />
           </div>
         </Offcanvas.Body>
       </Offcanvas>

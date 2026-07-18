@@ -1,4 +1,5 @@
-import { Nav } from 'react-bootstrap'
+import { LogOut } from 'lucide-react'
+import { Button, Nav } from 'react-bootstrap'
 import { Link, NavLink as RRNavLink, useLocation } from 'react-router'
 import { ADMIN_SIDEBAR_CONFIG } from './admin-sidebar-config'
 
@@ -56,72 +57,90 @@ const SidebarDivider = () => (
   />
 )
 
-const AdminSidebar = ({ onClose }) => {
+const AdminSidebar = ({ onClose, onSignOut, isSigningOut }) => {
   const { pathname } = useLocation()
 
   return (
-    <nav className="admin-sidebar d-flex flex-column">
-      <Link
-        to="/admin"
-        onClick={ onClose }
-        className="d-block m-3 text-decoration-none"
+    <nav className="admin-sidebar d-flex flex-column flex-grow-1 min-h-0">
+      <div
+        className="flex-grow-1 overflow-y-auto overflow-x-hidden"
+        style={{ scrollbarWidth: 'none' }}
       >
-        <span className="fw-bold text-white">
-          { 'Scorpio Carwash' }
-        </span>
-      </Link>
+        <Link
+          to="/admin"
+          onClick={ onClose }
+          className="d-block m-3 text-decoration-none"
+        >
+          <span className="fw-bold text-white">
+            { 'Scorpio Carwash' }
+          </span>
+        </Link>
 
-      <SidebarDivider />
+        <SidebarDivider />
 
-      <Nav
-        as="ul"
-        variant="pills"
-        className="flex-column px-3"
-      >
+        <Nav
+          as="ul"
+          variant="pills"
+          className="flex-column px-3"
+        >
+          {
+            ADMIN_SIDEBAR_CONFIG.topLevel.map((item) => (
+              <AdminSidebarNavItem
+                key={ item.path }
+                item={ item }
+                pathname={ pathname }
+                onClose={ onClose }
+              />
+            ))
+          }
+        </Nav>
+
         {
-          ADMIN_SIDEBAR_CONFIG.topLevel.map((item) => (
-            <AdminSidebarNavItem
-              key={ item.path }
-              item={ item }
-              pathname={ pathname }
-              onClose={ onClose }
-            />
+          ADMIN_SIDEBAR_CONFIG.boundedContexts.map((context) => (
+            <div key={ context.id }>
+              <SidebarDivider />
+              <div className="px-3 pt-2">
+                <div className="text-uppercase mb-0 fw-bold">
+                  { context.label }
+                </div>
+                <p className="small text-body-tertiary">
+                  { context.description }
+                </p>
+
+                <Nav
+                  as="ul"
+                  variant="pills"
+                  className="flex-column"
+                >
+                  {
+                    context.items.map((item) => (
+                      <AdminSidebarNavItem
+                        key={ item.path }
+                        item={ item }
+                        pathname={ pathname }
+                        onClose={ onClose }
+                      />
+                    ))
+                  }
+                </Nav>
+              </div>
+            </div>
           ))
         }
-      </Nav>
+      </div>
 
-      {
-        ADMIN_SIDEBAR_CONFIG.boundedContexts.map((context) => (
-          <div key={ context.id }>
-            <SidebarDivider />
-            <div className="px-3 pt-2">
-              <div className="text-uppercase mb-0 fw-bold">
-                { context.label }
-              </div>
-              <p className="small text-body-tertiary">
-                { context.description }
-              </p>
-
-              <Nav
-                as="ul"
-                variant="pills"
-                className="flex-column"
-              >
-                {
-                  context.items.map((item) => (
-                    <AdminSidebarNavItem
-                      key={ item.path }
-                      item={ item }
-                      pathname={ pathname }
-                      onClose={ onClose }
-                    />
-                  ))
-                }
-              </Nav>
-            </div>
-          </div>
-        ))
-      }
+      <div className="flex-shrink-0 px-3 py-3 border-top border-secondary">
+        <Button
+          variant="outline-light"
+          size="sm"
+          className="w-100 d-flex align-items-center justify-content-center gap-2"
+          onClick={ onSignOut }
+          disabled={ isSigningOut }
+        >
+          <LogOut size={ 16 } />
+          { isSigningOut ? 'Signing out…' : 'Sign out' }
+        </Button>
+      </div>
     </nav>
   )
 }
