@@ -1,37 +1,58 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Menu } from 'lucide-react'
 import { Button, Container, Offcanvas } from 'react-bootstrap'
-import { Outlet, useNavigate, useLocation } from 'react-router'
+import {
+  Navigate,
+  Outlet,
+  redirect,
+  useLoaderData,
+  useLocation,
+  useRouteError
+} from 'react-router'
+import { adminSessionsApi } from '@/api/admin-sessions-api'
+import { ApiError } from '@/errors/api-error'
+import GeneralError from '@/components/error-display/general-error'
 import { useAdminAuth } from '@/hooks/use-admin-auth'
+import {
+  buildAdminLoginRedirectPath,
+  isUnauthorizedApiError
+} from '@/utils/error-boundary-utils'
 import AdminSidebar from './admin-sidebar'
 
 export const handle = {
   breadcrumb: 'Admin'
 }
 
+export async function clientLoader({ request }) {
+  try {
+    const identitiesAdmin = await adminSessionsApi.current()
+
+    return { identitiesAdmin }
+  } catch (error) {
+    if (error instanceof ApiError && error.status === 401) {
+      const url = new URL(request.url)
+
+      throw redirect(buildAdminLoginRedirectPath(url.pathname, url.search))
+    }
+
+    throw error
+  }
+}
+
 /**
  * Admin layout — authenticated shell with sidebar navigation.
  *
- * Reads admin session from AdminAuthProvider context.
- * Redirects to /admin/login when not authenticated.
+ * Session is validated in clientLoader before rendering protected routes.
  */
 const AdminLayout = () => {
-  const { isAdminLoggedIn }           = useAdminAuth()
-  const navigate                      = useNavigate()
-  const location                      = useLocation()
+  const { identitiesAdmin }           = useLoaderData()
+  const { onAdminUpdate }             = useAdminAuth()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const commitSha                     = import.meta.env.VITE_COMMIT_SHA?.slice(0, 7) || 'dev'
 
   useEffect(() => {
-    if (!isAdminLoggedIn()) {
-      const redirectTarget = `${location.pathname}${location.search}`
-      const redirectTo     = `/admin/login?redirect_to=${encodeURIComponent(redirectTarget)}`
-
-      navigate(redirectTo, { replace: true })
-    }
-  }, [isAdminLoggedIn, navigate, location])
-
-  if (!isAdminLoggedIn()) return null
+    onAdminUpdate(identitiesAdmin)
+  }, [identitiesAdmin, onAdminUpdate])
 
   const handleSidebarClose = () => setSidebarOpen(false)
   const handleSidebarShow  = () => setSidebarOpen(true)
@@ -90,6 +111,24 @@ const AdminLayout = () => {
         </small>
       </div>
     </Container>
+  )
+}
+
+export function ErrorBoundary() {
+  const error    = useRouteError()
+  const location = useLocation()
+
+  if (isUnauthorizedApiError(error)) {
+    return (
+      <Navigate
+        to={ buildAdminLoginRedirectPath(location.pathname, location.search) }
+        replace
+      />
+    )
+  }
+
+  return (
+    <GeneralError error={ error } />
   )
 }
 

@@ -1,4 +1,4 @@
-import { createContext, useState, useContext, useCallback, useMemo, useEffect } from 'react'
+import { createContext, useState, useContext, useCallback, useMemo } from 'react'
 
 const defaultContext = {
   identitiesAdmin : null,
@@ -8,12 +8,8 @@ const defaultContext = {
 
 const AdminAuthContext = createContext(defaultContext)
 
-export function AdminAuthProvider({ children, identitiesAdminData = null }) {
-  const [identitiesAdmin, setIdentitiesAdmin] = useState(identitiesAdminData || defaultContext.identitiesAdmin)
-
-  useEffect(() => {
-    setIdentitiesAdmin(identitiesAdminData || defaultContext.identitiesAdmin)
-  }, [identitiesAdminData])
+export function AdminAuthProvider({ children }) {
+  const [identitiesAdmin, setIdentitiesAdmin] = useState(defaultContext.identitiesAdmin)
 
   const onAdminUpdate = useCallback((admin) => {
     setIdentitiesAdmin(admin || defaultContext.identitiesAdmin)

@@ -2,11 +2,20 @@ import {
   isRouteErrorResponse,
   Links,
   Meta,
+  Navigate,
   Outlet,
   Scripts,
-  ScrollRestoration
+  ScrollRestoration,
+  useLocation,
+  useRouteError
 } from 'react-router'
 import { AdminAuthProvider } from '@/hooks/use-admin-auth'
+import { ToastProvider } from '@/hooks/use-toast'
+import GeneralError from '@/components/error-display/general-error'
+import {
+  buildAdminLoginRedirectPath,
+  isUnauthorizedApiError
+} from '@/utils/error-boundary-utils'
 import './styles/main.scss'
 
 export const links = () => ([
@@ -46,34 +55,43 @@ export function Layout({ children }) {
 export default function App() {
   return (
     <AdminAuthProvider>
-      <Outlet />
+      <ToastProvider>
+        <Outlet />
+      </ToastProvider>
     </AdminAuthProvider>
   )
 }
 
-export function ErrorBoundary({ error }) {
-  let message = 'Oops!'
-  let details = 'An unexpected error occurred.'
-  let stack
+export function ErrorBoundary() {
+  const error    = useRouteError()
+  const location = useLocation()
+
+  if (isUnauthorizedApiError(error)) {
+    return (
+      <Navigate
+        to={ buildAdminLoginRedirectPath(location.pathname, location.search) }
+        replace
+      />
+    )
+  }
 
   if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? '404' : 'Error'
-    details = error.status === 404
-      ? 'The requested page could not be found.'
-      : error.statusText || details
-  } else if (import.meta.env.DEV && error && error instanceof Error) {
-    details = error.message
-    stack   = error.stack
+    return (
+      <main style={ { padding: '2rem' } }>
+        <GeneralError error={ error } />
+      </main>
+    )
+  }
+
+  let stack
+
+  if (import.meta.env.DEV && error && error instanceof Error) {
+    stack = error.stack
   }
 
   return (
     <main style={ { padding: '2rem' } }>
-      <h1>
-        { message }
-      </h1>
-      <p>
-        { details }
-      </p>
+      <GeneralError error={ error } />
       {
         stack
           ? (

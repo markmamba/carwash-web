@@ -70,7 +70,7 @@ function createApiClient({ csrfCookieName, refreshPath, prefixUrl }) {
   }
 
   async function handleClientSideRetry(request, options) {
-    const { prefixUrl, ...retryOptions } = options
+    const { prefixUrl: _prefixUrl, ...retryOptions } = options
 
     const headers = { ...retryOptions.headers }
     if (!['GET', 'HEAD'].includes(request.method)) {
@@ -167,7 +167,7 @@ async function handleServerSideRetry(request, options, refreshSuccess) {
     _retry: true
   }
 
-  const { prefixUrl, ...serverRetryOptions } = updatedOptions
+  const { prefixUrl: _prefixUrl, ...serverRetryOptions } = updatedOptions
   const retryResponse                        = await ky(request.url, {
     ...serverRetryOptions,
     method: request.method
