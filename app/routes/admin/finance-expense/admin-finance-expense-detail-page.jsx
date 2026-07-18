@@ -26,8 +26,8 @@ export const handle = {
 
 export async function clientLoader({ params }) {
   try {
-    const data = await adminFinanceExpensesApi.show(params.expenseId)
-    return { expense: data.expense }
+    const expense = await adminFinanceExpensesApi.show(params.expenseId)
+    return { expense }
   } catch (error) {
     return handleLoaderError(error, { expense: null })
   }
