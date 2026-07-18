@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, Modal, Table } from 'react-bootstrap'
+import { Alert, Button, Modal, Table } from 'react-bootstrap'
 import { Pencil } from 'lucide-react'
 import FinanceDailyClosingForm from '@/domains/finance-daily-closing/finance-daily-closing-form'
 import { FinanceDailyClosingService } from '@/domains/finance-daily-closing/finance-daily-closing-service'
@@ -10,6 +10,7 @@ const FinanceDailyClosingDaySummary = ({
   saleDate,
   dailySales,
   dailyClosing,
+  dailyClosingLoadFailed = false,
   onSubmit
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -39,6 +40,20 @@ const FinanceDailyClosingDaySummary = ({
       <p className="small text-uppercase fw-semibold text-body-secondary mb-2 mt-4">
         { 'Day closing summary' }
       </p>
+
+      {
+        dailyClosingLoadFailed
+          ? (
+            <Alert
+              variant="warning"
+              className="border mb-3"
+            >
+              { 'Could not load the lunch deduction for this day. Totals below may be incomplete until you refresh.' }
+            </Alert>
+          )
+          : null
+      }
+
       <div className="border rounded-3 overflow-hidden mb-3">
         <Table
           className="mb-0"
